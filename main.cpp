@@ -36,9 +36,9 @@ if (files.empty()) {
         return;
 }
  cout << "\n" << string(60, '=') << endl;
-    cout << left << setw(40) << "File Name" 
-         << setw(15) << "Size (bytes)" 
-         << setw(10) << "Type" << endl;
+    cout << left << setw(40) << "Имя файла" 
+         << setw(15) << "Размер(байты)" 
+         << setw(10) << "Тип" << endl;
     cout << string(60, '-') << endl;
     
     // Print data
@@ -49,13 +49,25 @@ if (files.empty()) {
              << setw(10) << file.type << endl;
     }
     cout << string(60, '=') << endl;
-    cout << string(60, '=') << endl;
+    
     
     long totalSize = 0;
     for (const auto& file : files) 
     {
         totalSize += file.size;
     }
+    cout << "Всего файлов: " << files.size() << endl;
+    cout << "Общий размер: " << totalSize << " байт";
+    
+    if (totalSize >= 1024) 
+    {
+        cout << " (" << fixed << setprecision(2) << (double)totalSize / 1024 << " КБ)";
+    }
+    if (totalSize >= 1024 * 1024) 
+    {
+        cout << " (" << fixed << setprecision(2) << (double)totalSize / (1024 * 1024) << " МБ)";
+    }
+    cout << endl;
 }
 
 // 2. Function to save folder report to file
@@ -79,7 +91,7 @@ void saveFolderReport(const vector<FileInfo>& files, const string& filename)
         return;
     }
     
-    outFile << "Found files:" << endl;
+    outFile << "Найденные файлы:" << endl;
     outFile << string(50, '-') << endl;
     
     for (const auto& file : files) 
@@ -99,17 +111,8 @@ void saveFolderReport(const vector<FileInfo>& files, const string& filename)
     
     outFile << "ИТОГИ:" << endl;
     outFile << "Количество файлов: " << files.size() << endl;
-    outFile << "Общий размер: " << totalSize << " bytes";
+    outFile << "Общий размер: " << totalSize << " байт";
     
-    // Convert to KB/MB
-    if (totalSize >= 1024) 
-    {
-        outFile << " (" << fixed << setprecision(2) << (double)totalSize / 1024 << " KB)";
-    }
-    if (totalSize >= 1024 * 1024) 
-    {
-        outFile << " (" << fixed << setprecision(2) << (double)totalSize / (1024 * 1024) << " MB)";
-    }
     
     outFile.close();
     cout << "Отчёт сохранён в файл: " << filename << endl;
