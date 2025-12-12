@@ -1,0 +1,10 @@
+*.exe
+*.out
+test_analyzer.exe
+analyzer.exe
+*.o
+*.obj
+report.txt
+folder_report.txt
+отчет.txt
+build/
