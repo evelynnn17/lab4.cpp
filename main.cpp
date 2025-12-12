@@ -47,6 +47,13 @@ if (files.empty()) {
              << setw(10) << file.type << endl;
     }
     cout << string(60, '=') << endl;
+    cout << string(60, '=') << endl;
+    
+    long totalSize = 0;
+    for (const auto& file : files) 
+    {
+        totalSize += file.size;
+    }
 }
 // 2. void saveFolderReport(const vector<FileInfo>& files, const string& filename)
   // Берёт вектор files
@@ -67,10 +74,10 @@ int main() {
     vector<FileInfo> files = scanFolder(path);
     
     // 2. функция Маши 
-    cout << "\n[DEBUG] Здесь будет вывод таблицы" << endl;
+    printFileTable(files);
     
     // 3. функция Маши 
-    cout << "[DEBUG] Здесь будет сохранение отчета" << endl;
+    
     
     return 0;
 }
