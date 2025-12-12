@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <windows.h> // русский язык
+#include <iomanip>
+#include <fstream>
 
 using namespace std;
 // структура информации о файлах папки (название, размер, тип)
@@ -30,7 +32,7 @@ vector<FileInfo> scanFolder(const string& path) {
 void printFileTable(const vector<FileInfo>& files)
 {
 if (files.empty()) {
-        cout << "Folder is empty or no files found." << endl;
+        cout << "Папка пуста или файлы не найдены." << endl;
         return;
 }
  cout << "\n" << string(60, '=') << endl;
@@ -63,16 +65,16 @@ void saveFolderReport(const vector<FileInfo>& files, const string& filename)
     
     if (!outFile.is_open()) 
     {
-        cerr << "Error: Could not create file " << filename << endl;
+        cerr << "Ошибка: не удалось создать файл " << filename << endl;
         return;
     }
     
-    outFile << "FOLDER ANALYSIS REPORT" << endl;
+    outFile << "ОТЧЁТ АНАЛИЗА ПАПКИ" << endl;
     outFile << "======================" << endl << endl;
     
     if (files.empty()) 
     {
-        outFile << "Folder is empty or no files found." << endl;
+        outFile << "Папка пуста или файлы не найдены." << endl;
         outFile.close();
         return;
     }
@@ -83,8 +85,8 @@ void saveFolderReport(const vector<FileInfo>& files, const string& filename)
     for (const auto& file : files) 
     {
         outFile << "• " << file.name;
-        outFile << " | Size: " << file.size << " bytes";
-        outFile << " | Type: " << file.type << endl;
+        outFile << " | Размер: " << file.size << " байт";
+        outFile << " | Тип: " << file.type << endl;
     }
     
     outFile << string(50, '-') << endl;
@@ -95,9 +97,9 @@ void saveFolderReport(const vector<FileInfo>& files, const string& filename)
         totalSize += file.size;
     }
     
-    outFile << "SUMMARY:" << endl;
-    outFile << "Number of files: " << files.size() << endl;
-    outFile << "Total size: " << totalSize << " bytes";
+    outFile << "ИТОГИ:" << endl;
+    outFile << "Количество файлов: " << files.size() << endl;
+    outFile << "Общий размер: " << totalSize << " bytes";
     
     // Convert to KB/MB
     if (totalSize >= 1024) 
@@ -110,7 +112,7 @@ void saveFolderReport(const vector<FileInfo>& files, const string& filename)
     }
     
     outFile.close();
-    cout << "Report saved to file: " << filename << endl;
+    cout << "Отчёт сохранён в файл: " << filename << endl;
 }
 
 int main() 
