@@ -1,58 +1,63 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <windows.h> // русский язык
-
+#include <windows.h>
+#include <filesystem>
 using namespace std;
-// структура информации о файлах папки (название, размер, тип)
+namespace fs = filesystem;
+
 struct FileInfo {
     string name;
     long size;
     string type;
 };
 
-// моя функция 1:
-// 1. Получает путь к папке
-// 2. Открывает эту папку через filesystem
-// 3. Собирает ВСЕ файлы внутри папки (не подпапки!)
-// 4. Для каждого файла получает данные
-// 5. Возвращает вектор со структурой FileInfo для всех файлов
+// функция 1 (участник №1 - Эвелина)
 vector<FileInfo> scanFolder(const string& path) {
     vector<FileInfo> files;
+    cout << "Выполняется сканирование: " << path << endl;
     
-    // временные тестовые данные
-    files.push_back({"test.txt", 1500, ".txt"});
-    
+    for (const auto& entry : fs::directory_iterator(path)) {
+        if (fs::is_regular_file(entry.path())) {
+            FileInfo file;
+            file.name = entry.path().filename().string();
+            file.size = fs::file_size(entry.path());
+            file.type = entry.path().extension().string();
+            if (file.type.empty()) {
+                file.type = "файл";
+            }
+            
+            files.push_back(file);
+            cout << "  " << file.name 
+                 << " | " << file.size << " байт"
+                 << " | " << file.type << endl;
+        }
+    }
+    cout << "Всего файлов: " << files.size() << endl;
     return files;
 }
-
-// функции Маши
-// 1. void printFileTable(const vector<FileInfo>& files)
- // Берёт вектор files
-    // Форматирует в таблицу
-// 2. void saveFolderReport(const vector<FileInfo>& files, const string& filename)
-  // Берёт вектор files
-    // Сохраняет в файл ("report.txt"):
-    // Отчет анализа папки
-
 int main() {
-    SetConsoleOutputCP(CP_UTF8); // русский язык
-    SetConsoleCP(CP_UTF8); // русский язык
-    
-    string path;
-    cout << "Введите путь к папке: ";
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+    string path = ".";
+    cout << "Введите '.' для анализа текущей папки: ";
     getline(cin, path);
     
-    if (path.empty()) path = ".";
+    getline(cin, path);
+    if (path != ".") {
+        path = ".";
+        cout << "Используется текущая папка" << endl;
+    }
     
-    // 1. моя функция
     vector<FileInfo> files = scanFolder(path);
     
-    // 2. функция Маши 
-    cout << "\n[DEBUG] Здесь будет вывод таблицы" << endl;
+    // функции Маши
+    cout << "\n[DEBUG] Здесь будет вывод таблицы (функция Маши)" << endl;
+    cout << "[DEBUG] Здесь будет сохранение отчета (функция Маши)" << endl;
     
-    // 3. функция Маши 
-    cout << "[DEBUG] Здесь будет сохранение отчета" << endl;
+    cout << "\nНажмите Enter для выхода...";
+    cin.ignore();
+    cin.get();
     
     return 0;
 }
