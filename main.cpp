@@ -55,12 +55,66 @@ if (files.empty()) {
         totalSize += file.size;
     }
 }
-// 2. void saveFolderReport(const vector<FileInfo>& files, const string& filename)
-  // Берёт вектор files
-    // Сохраняет в файл ("report.txt"):
-    // Отчет анализа папки
 
-int main() {
+// 2. Function to save folder report to file
+void saveFolderReport(const vector<FileInfo>& files, const string& filename)
+{
+    ofstream outFile(filename);
+    
+    if (!outFile.is_open()) 
+    {
+        cerr << "Error: Could not create file " << filename << endl;
+        return;
+    }
+    
+    outFile << "FOLDER ANALYSIS REPORT" << endl;
+    outFile << "======================" << endl << endl;
+    
+    if (files.empty()) 
+    {
+        outFile << "Folder is empty or no files found." << endl;
+        outFile.close();
+        return;
+    }
+    
+    outFile << "Found files:" << endl;
+    outFile << string(50, '-') << endl;
+    
+    for (const auto& file : files) 
+    {
+        outFile << "• " << file.name;
+        outFile << " | Size: " << file.size << " bytes";
+        outFile << " | Type: " << file.type << endl;
+    }
+    
+    outFile << string(50, '-') << endl;
+    
+    long totalSize = 0;
+    for (const auto& file : files) 
+    {
+        totalSize += file.size;
+    }
+    
+    outFile << "SUMMARY:" << endl;
+    outFile << "Number of files: " << files.size() << endl;
+    outFile << "Total size: " << totalSize << " bytes";
+    
+    // Convert to KB/MB
+    if (totalSize >= 1024) 
+    {
+        outFile << " (" << fixed << setprecision(2) << (double)totalSize / 1024 << " KB)";
+    }
+    if (totalSize >= 1024 * 1024) 
+    {
+        outFile << " (" << fixed << setprecision(2) << (double)totalSize / (1024 * 1024) << " MB)";
+    }
+    
+    outFile.close();
+    cout << "Report saved to file: " << filename << endl;
+}
+
+int main() 
+{
     SetConsoleOutputCP(CP_UTF8); // русский язык
     SetConsoleCP(CP_UTF8); // русский язык
     
@@ -77,7 +131,7 @@ int main() {
     printFileTable(files);
     
     // 3. функция Маши 
-    
+    saveFolderReport(files, "folder_report.txt");
     
     return 0;
 }
