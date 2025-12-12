@@ -27,9 +27,27 @@ vector<FileInfo> scanFolder(const string& path) {
 }
 
 // функции Маши
-// 1. void printFileTable(const vector<FileInfo>& files)
- // Берёт вектор files
-    // Форматирует в таблицу
+void printFileTable(const vector<FileInfo>& files)
+{
+if (files.empty()) {
+        cout << "Folder is empty or no files found." << endl;
+        return;
+}
+ cout << "\n" << string(60, '=') << endl;
+    cout << left << setw(40) << "File Name" 
+         << setw(15) << "Size (bytes)" 
+         << setw(10) << "Type" << endl;
+    cout << string(60, '-') << endl;
+    
+    // Print data
+    for (const auto& file : files) 
+    {
+        cout << left << setw(40) << file.name
+             << setw(15) << file.size
+             << setw(10) << file.type << endl;
+    }
+    cout << string(60, '=') << endl;
+}
 // 2. void saveFolderReport(const vector<FileInfo>& files, const string& filename)
   // Берёт вектор files
     // Сохраняет в файл ("report.txt"):
