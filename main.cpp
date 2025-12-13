@@ -50,8 +50,6 @@ int main() {
     vector<FileInfo> files = scanFolder(path);
     
     // функции Маши
-    cout << "\n[DEBUG] Здесь будет вывод таблицы (функция Маши)" << endl;
-    cout << "[DEBUG] Здесь будет сохранение отчета (функция Маши)" << endl;
     
     cout << "\nНажмите Enter для выхода...";
     cin.ignore();
