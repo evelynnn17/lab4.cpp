@@ -28,9 +28,7 @@ vector<FileInfo> scanFolder(const string& path) {
             }
             
             files.push_back(file);
-            cout << "  " << file.name 
-                 << " | " << file.size << " байт"
-                 << " | " << file.type << endl;
+            cout << "  " << file.name << " - " << file.size << " байт (" << file.type << ")" << endl;
         }
     }
     cout << "Всего файлов: " << files.size() << endl;
